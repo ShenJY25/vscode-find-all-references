@@ -39,11 +39,9 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
             let searchTerm = document.getText(document.getWordRangeAtPosition(position));
             let args = options.getOptions().split(' ');
             let searchWord = searchTerm;
+
+            searchTerm = '([\\s,=\\(\\.\\{]' + searchTerm + '|^' + searchTerm + ')\\s*[,;\\(\\)\\{]';
             
-            if(document.languageId=="cpp"){
-                searchTerm = '^((?!").)*'+searchTerm;
-                console.log("add the regex!");
-            }
             args.push(searchTerm);
             args.push(vscode.workspace.rootPath);
             // TODO : Introduce the ability to choose different search options ripgrep, silver searcher, git grep, platinum searcher etc
@@ -67,9 +65,6 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
                     let line_no = parseInt(arr[1])-1;
                     let col_no = parseInt(arr[2])-1;
                     // use regex,the seach result is not the original word
-                    if(document.languageId=="cpp"){
-                        col_no =  arr[3].indexOf(searchWord);
-                    }
 
                     let start_pos = new vscode.Position(line_no, col_no);
                     let end_pos = new vscode.Position(line_no, col_no+searchWord.length);
