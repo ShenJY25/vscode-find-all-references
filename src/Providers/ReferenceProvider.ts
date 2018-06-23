@@ -40,7 +40,8 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
             let args = options.getOptions().split(' ');
             let searchWord = searchTerm;
 
-            searchTerm = '([\\s,=\\(\\.\\{]' + searchTerm + '|^' + searchTerm + ')\\s*[,;\\(\\)\\{]';
+            // Add rex 
+            searchTerm = '([,=!&\\s\\(\\.\\{\\|]' + searchTerm + '|^' + searchTerm + ')\\s*[,;\\(\\)\\{]';
             
             args.push(searchTerm);
             args.push(vscode.workspace.rootPath);
